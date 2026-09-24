@@ -1,0 +1,9 @@
+# Kompilierte Dateien
+*.o
+*.out
+*.exe
+build/
+
+# System / Editor
+.DS_Store
+.vscode/
