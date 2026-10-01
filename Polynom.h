@@ -1,17 +1,18 @@
-#pragma once
+#include <iostream>
 #include <vector>
 
-// Gruppe Polynom
-// Koeffizienten in aufsteigender Reihenfolge: {a0, a1, a2, ...} = a0 + a1*x + a2*x^2 + ...
-class Polynom {
+using namespace std;
+
+class PolynomAbleitung {
 public:
-    Polynom(std::vector<double> koeffizienten);
+    static vector<double> berechneAbleitungGrad4(const vector<double>& koeffizienten) {
+        vector<double> ableitung(4);
 
-    double  wert(double x) const;   // Y(x)
-    Polynom ableitung() const;
-    int     grad() const;
-    const std::vector<double>& koeffizienten() const;
+        ableitung[0] = koeffizienten[1] * 1; 
+        ableitung[1] = koeffizienten[2] * 2; 
+        ableitung[2] = koeffizienten[3] * 3;
+        ableitung[3] = koeffizienten[4] * 4; 
 
-private:
-    std::vector<double> m_koeffizienten;
+        return ableitung;
+    }
 };
