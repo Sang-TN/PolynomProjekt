@@ -5,7 +5,6 @@
 using namespace std;
 
 vector<double> ergebnisse;
-
 vector<double> regel(vector<double> k)
 {
     int grad = k.size() - 1;
