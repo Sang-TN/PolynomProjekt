@@ -1,11 +1,13 @@
-#include "Polynom.h"
 #include "Nullstellenberechnung.h"
-#include "Eingabe.h"
-#include "Darstellung.h"
+using namespace std;
 
 int main() {
-    // Polynom p = lesePolynomEin();
-    // std::vector<double> nullstellen = berechneNullstellen(p);
-    // zeichne(p, -10, 10);
+    vector<double> ergebnisse = regel({1, 4, -12});
+    cout << "ergebnisse: ";
+    for (int i = 0; i < ergebnisse.size(); i++) {
+        cout << ergebnisse[i] << " ";
+    }
+    cout << endl;
+
     return 0;
 }
