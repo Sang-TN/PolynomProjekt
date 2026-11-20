@@ -4,8 +4,7 @@
 #include "Darstellung.h"
 
 int main() {
-    // Polynom p = lesePolynomEin();
-    // std::vector<double> nullstellen = berechneNullstellen(p);
-    // zeichne(p, -10, 10);
+    PolynomFenster fenster;
+    fenster.starten();
     return 0;
 }
