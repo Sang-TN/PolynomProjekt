@@ -1,35 +1,22 @@
-#include <iostream>
-#include <vector>
+#include "Polynom.h"
 
-using namespace std;
-{
-    static vector<double> berechneAbleitung(const vector<double>& koeffizienten) {
-        vector<double> ableitung;
+// Eingabe liefert die Koeffizienten aufsteigend: {a0, a1, a2, ...} = a0 + a1*x + a2*x^2 + ...
+// Ableitung: f'(x) = a1 + 2*a2*x + 3*a3*x^2 + ...  ->  {a1, 2*a2, 3*a3, ...}
+Polynom Polynom::ableitung() const {
+    // Konstante (oder leer, z. B. bei Eingabefehler): Ableitung ist 0
+    if (m_koeffizienten.size() <= 1)
+        return Polynom(std::vector<double>{0.0});
 
-        // Konstante (oder leer): Ableitung ist 0
-        if (koeffizienten.size() <= 1) {
-            ableitung.push_back(0);
-            return ableitung;
-        }
+    std::vector<double> d;
+    d.reserve(m_koeffizienten.size() - 1);
 
-        // a0 fällt weg, jeder andere Koeffizient mal seinen Exponenten
-        for (int i = 1; i < koeffizienten.size(); i++) {
-            ableitung.push_back(koeffizienten[i] * i);
-        }
+    // a0 faellt weg, jeder andere Koeffizient mal seinen Exponenten
+    for (size_t i = 1; i < m_koeffizienten.size(); ++i)
+        d.push_back(m_koeffizienten[i] * static_cast<double>(i));
 
-        return ableitung;
-    }
-};
+    // Fuehrende Nullen entfernen, damit grad() stimmt
+    while (d.size() > 1 && d.back() == 0.0)
+        d.pop_back();
 
-int main() {
-    // Test: 5 - 3x + 2x^2 + 4x^3  ->  Ableitung: -3 + 4x + 12x^2
-    vector<double> p = {5, -3, 2, 4};
-    vector<double> d = PolynomAbleitung::berechneAbleitung(p);
-
-    for (int i = 0; i < d.size(); i++) {
-        cout << d[i] << " ";   // Ausgabe: -3 4 12
-    }
-    cout << endl;
-
-    return 0;
+    return Polynom(d);
 }
