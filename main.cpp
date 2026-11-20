@@ -4,8 +4,7 @@
 #include "Darstellung.h"
 
 int main() {
-    // Polynom p = lesePolynomEin();
-    // std::vector<double> nullstellen = berechneNullstellen(p);
-    // zeichne(p, -10, 10);
+    Polynom p = lesePolynomEin();   // Eingabe-Gruppe: Benutzer gibt die Funktion ein
+    zeichne(p, -10, 10);            // Darstellung: Graph anzeigen
     return 0;
 }
