@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "../../visual Sutdio C#&C++code"
+		},
+		{
+			"name": "python code",
+			"path": "../../python code"
+		},
+		{
+			"path": "../../Sqlite vscode"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
