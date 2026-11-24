@@ -6,7 +6,6 @@ int main() {
     PolynomFenster fenster;
     fenster.starten();
     vector<double> ergebnisse = regel(fenster.koeffizienten());
-    
 
     return 0;
 }

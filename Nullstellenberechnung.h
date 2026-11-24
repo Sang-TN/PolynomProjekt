@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include "Polynom.h"
 using namespace std;
 
 inline vector<double> ergebnisse;
@@ -112,4 +113,13 @@ inline vector<double> regel(vector<double> k)
         }
     }
     return ergebnisse;
+}
+
+// Fuer die Darstellung: Polynom speichert aufsteigend {a0, a1, ...},
+// regel() erwartet absteigend {an, ..., a0}.
+inline vector<double> berechneNullstellen(const Polynom& p)
+{
+    vector<double> k(p.koeffizienten().rbegin(), p.koeffizienten().rend());
+    ergebnisse.clear(); // regel() sammelt in der globalen Liste
+    return regel(k);
 }

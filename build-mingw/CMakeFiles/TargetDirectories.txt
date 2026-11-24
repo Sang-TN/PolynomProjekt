@@ -1,0 +1,3 @@
+C:/Users/abdul/OneDrive - Berufsbildende Schule 1/Documents/projekt polynom/PolynomProjekt/build-mingw/CMakeFiles/polynom.dir
+C:/Users/abdul/OneDrive - Berufsbildende Schule 1/Documents/projekt polynom/PolynomProjekt/build-mingw/CMakeFiles/edit_cache.dir
+C:/Users/abdul/OneDrive - Berufsbildende Schule 1/Documents/projekt polynom/PolynomProjekt/build-mingw/CMakeFiles/rebuild_cache.dir
