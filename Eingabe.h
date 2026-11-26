@@ -122,7 +122,7 @@ public:
         SetExitKey(KEY_NULL);
         SetTargetFPS(30);
 
-        while (!WindowShouldClose()) {
+        while (!WindowShouldClose() && !fertig) {
             aktualisieren();
             zeichnen();
         }
@@ -139,13 +139,14 @@ private:
     static constexpr int hoehe = 450;
     const Rectangle eingabeFeld = {180, 20, 600, 40};
     PolynomEingabe polynom;
+    bool fertig = false;
 
     void aktualisieren() {
         std::string text = polynom.text();
         if (IsKeyPressed(KEY_BACKSPACE) && !text.empty())
             text.pop_back();
         if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER))
-            CloseWindow();
+            fertig = true;
 
         int zeichen = GetCharPressed();
         while (zeichen > 0) {
