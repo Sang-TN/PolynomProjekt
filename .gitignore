@@ -5,3 +5,5 @@
 !.gitignore
 !Eingabe.*
 !main.cpp
+!Ableitung.cpp
+!Ableitung.h
