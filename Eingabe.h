@@ -1,6 +1,7 @@
 #pragma once
 #include "raylib.h"
 #include "Polynom.h"
+#include "Ableitung.h"
 #include "Nullstellenberechnung.h"
 #include <algorithm>
 #include <cctype>
@@ -171,7 +172,6 @@ private:
         std::string text = polynom.text();
         if (IsKeyPressed(KEY_BACKSPACE) && !text.empty())
             text.pop_back();
-        // Enter nur bei gueltiger Eingabe annehmen
         if ((IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER)) && polynom.meldung().empty())
             fertig = true;
 
@@ -210,6 +210,10 @@ private:
 
         DrawText("Beispiel: 2*x^3 - 3*x^2 + 4*x + 1 oder x^2 - 5", 20 + offsetX, 350 + offsetY, 18, DARKGRAY);
         if (polynom.meldung().empty()) {
+            const Polynom f = alsPolynom();
+            DrawText(TextFormat("f'(x)  = %s", alsText(ersteAbleitung(f)).c_str()), 20 + offsetX, 80 + offsetY, 20, DARKBLUE);
+            DrawText(TextFormat("f''(x) = %s", alsText(zweiteAbleitung(f)).c_str()), 20 + offsetX, 110 + offsetY, 20, DARKBLUE);
+
             std::string vectorText = "Vector (absteigend): [";
             const auto& werte = polynom.vector();
             for (size_t i = 0; i < werte.size(); ++i) {

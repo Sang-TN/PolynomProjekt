@@ -3,5 +3,8 @@
 
 # ... außer Eingabe-Dateien und dieser Datei
 !.gitignore
-!Eingabe.*
+!Eingabe.h
+!Eingabe.cpp
 !main.cpp
+!Ableitung.cpp
+!Ableitung.h
