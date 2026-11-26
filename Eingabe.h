@@ -1,6 +1,8 @@
 #pragma once
 #include "raylib.h"
 #include "Polynom.h"
+#include "Nullstellenberechnung.h"
+#include <algorithm>
 #include <cctype>
 #include <string>
 #include <vector>
@@ -8,18 +10,27 @@
 class PolynomEingabe {
 public:
     void setzeText(const std::string& text) {
+        // Nur bei Änderung neu rechnen, setzeText wird jeden Frame aufgerufen
+        if (text == eingabe) return;
         eingabe = text;
         koeffizienten = lesePolynom(eingabe);
+        nullstellenListe.clear();
+        if (fehler.empty()) {
+            ergebnisse.clear(); // regel() sammelt in der globalen Liste
+            nullstellenListe = regel(koeffizienten);
+        }
     }
 
     const std::string& text() const { return eingabe; }
     const std::string& meldung() const { return fehler; }
     const std::vector<double>& vector() const { return koeffizienten; }
+    const std::vector<double>& nullstellen() const { return nullstellenListe; }
 
 private:
     std::string eingabe;
-    std::string fehler;
+    std::string fehler = "Bitte eine Funktion eingeben";
     std::vector<double> koeffizienten;
+    std::vector<double> nullstellenListe;
 
     std::vector<double> lesePolynom(const std::string& eingabe) {
     fehler.clear();
@@ -111,6 +122,8 @@ private:
     while (koeffizienten.size() > 1 && koeffizienten.back() == 0.0)
         koeffizienten.pop_back();
 
+    // Absteigend speichern {an, ..., a1, a0}, so wie regel() es erwartet
+    std::reverse(koeffizienten.begin(), koeffizienten.end());
     return koeffizienten;
     }
 };
@@ -134,6 +147,10 @@ public:
         return polynom.vector();
     }
 
+    const std::vector<double>& nullstellen() const {
+        return polynom.nullstellen();
+    }
+
 private:
     static constexpr int breite = 800;
     static constexpr int hoehe = 450;
@@ -150,7 +167,13 @@ private:
 
         int zeichen = GetCharPressed();
         while (zeichen > 0) {
-            if (text.size() < 100)
+            // Auf deutscher Tastatur ist ^ eine Tottaste und kommt teils als
+            // U+02C6 bzw. U+0302 an; wir brauchen das ASCII-Zeichen '^'.
+            if (zeichen == 0x02C6 || zeichen == 0x0302)
+                zeichen = '^';
+            // Nur druckbares ASCII übernehmen, alles andere würde als
+            // ungültiges UTF-8 bei DrawText zu '?' werden.
+            if (zeichen >= 32 && zeichen <= 126 && text.size() < 100)
                 text += static_cast<char>(zeichen);
             zeichen = GetCharPressed();
         }
@@ -177,14 +200,24 @@ private:
 
         DrawText("Beispiel: 2*x^3 - 3*x^2 + 4*x + 1 oder x^2 - 5", 20 + offsetX, 350 + offsetY, 18, DARKGRAY);
         if (polynom.meldung().empty()) {
-            std::string vectorText = "Vector (aufsteigend): [";
+            std::string vectorText = "Vector (absteigend): [";
             const auto& werte = polynom.vector();
             for (size_t i = 0; i < werte.size(); ++i) {
                 if (i > 0) vectorText += ", ";
                 vectorText += std::to_string(werte[i]);
             }
             vectorText += ']';
-            DrawText(vectorText.c_str(), 20 + offsetX, 400 + offsetY, 17, MAROON);
+            DrawText(vectorText.c_str(), 20, 400, 17, MAROON);
+
+            // Zum Testen: berechnete Nullstellen direkt anzeigen
+            std::string nullstellenText = "Nullstellen: ";
+            const auto& nullstellen = polynom.nullstellen();
+            if (nullstellen.empty()) nullstellenText += "keine gefunden";
+            for (size_t i = 0; i < nullstellen.size(); ++i) {
+                if (i > 0) nullstellenText += ", ";
+                nullstellenText += TextFormat("%g", nullstellen[i]);
+            }
+            DrawText(nullstellenText.c_str(), 20, 425, 17, DARKGREEN);
         }
 
         EndDrawing();
