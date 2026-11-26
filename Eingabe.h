@@ -161,6 +161,8 @@ private:
         std::string text = polynom.text();
         if (IsKeyPressed(KEY_BACKSPACE) && !text.empty())
             text.pop_back();
+        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER))
+            CloseWindow();
 
         int zeichen = GetCharPressed();
         while (zeichen > 0) {
@@ -181,15 +183,21 @@ private:
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        DrawText("Funktion f(x):", 20, 30, 20, BLACK);
-        DrawRectangleRec(eingabeFeld, LIGHTGRAY);
-        DrawRectangleLinesEx(eingabeFeld, 2, BLUE);
-        DrawText(polynom.text().c_str(), 192, 30, 20, BLACK);
+        const int offsetX = IsWindowFullscreen() ? (GetScreenWidth() - breite) / 2 : 0;
+        const int offsetY = IsWindowFullscreen() ? (GetScreenHeight() - hoehe) / 2 : 0;
+        Rectangle feld = eingabeFeld;
+        feld.x += offsetX;
+        feld.y += offsetY;
+
+        DrawText("Funktion f(x):", 20 + offsetX, 30 + offsetY, 20, BLACK);
+        DrawRectangleRec(feld, LIGHTGRAY);
+        DrawRectangleLinesEx(feld, 2, BLUE);
+        DrawText(polynom.text().c_str(), 192 + offsetX, 30 + offsetY, 20, BLACK);
 
         if (!polynom.meldung().empty())
-            DrawText(TextFormat("Fehler: %s", polynom.meldung().c_str()), 20, 70, 17, RED);
+            DrawText(TextFormat("Fehler: %s", polynom.meldung().c_str()), 20 + offsetX, 70 + offsetY, 17, RED);
 
-        DrawText("Beispiel: 2*x^3 - 3*x^2 + 4*x + 1 oder x^2 - 5", 20, 350, 18, DARKGRAY);
+        DrawText("Beispiel: 2*x^3 - 3*x^2 + 4*x + 1 oder x^2 - 5", 20 + offsetX, 350 + offsetY, 18, DARKGRAY);
         if (polynom.meldung().empty()) {
             std::string vectorText = "Vector (absteigend): [";
             const auto& werte = polynom.vector();
