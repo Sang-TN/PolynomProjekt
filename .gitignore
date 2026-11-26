@@ -1,9 +1,6 @@
-# Kompilierte Dateien
-*.o
-*.out
-*.exe
-build/
+# Alles ignorieren ...
+*
 
-# System / Editor
-.DS_Store
-.vscode/
+# ... außer Eingabe-Dateien und dieser Datei
+!.gitignore
+!Eingabe.*
