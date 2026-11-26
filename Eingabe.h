@@ -151,6 +151,15 @@ public:
         return polynom.nullstellen();
     }
 
+    // true, wenn mit Enter eine gueltige Funktion bestaetigt wurde
+    bool bestaetigt() const { return fertig; }
+
+    // Polynom speichert aufsteigend {a0, a1, ...}, die Eingabe liefert absteigend
+    Polynom alsPolynom() const {
+        const auto& k = polynom.vector();
+        return Polynom(std::vector<double>(k.rbegin(), k.rend()));
+    }
+
 private:
     static constexpr int breite = 800;
     static constexpr int hoehe = 450;
@@ -162,7 +171,8 @@ private:
         std::string text = polynom.text();
         if (IsKeyPressed(KEY_BACKSPACE) && !text.empty())
             text.pop_back();
-        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER))
+        // Enter nur bei gueltiger Eingabe annehmen
+        if ((IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER)) && polynom.meldung().empty())
             fertig = true;
 
         int zeichen = GetCharPressed();
@@ -229,6 +239,6 @@ private:
 inline Polynom lesePolynomEin() {
     PolynomFenster fenster;
     fenster.starten();
-    return Polynom(fenster.koeffizienten());
+    return fenster.alsPolynom();
 }
 

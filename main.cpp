@@ -1,11 +1,10 @@
-#include "Nullstellenberechnung.h"
 #include "Eingabe.h"
-using namespace std;
+#include "Darstellung.h"
 
 int main() {
     PolynomFenster fenster;
     fenster.starten();
-    vector<double> ergebnisse = regel(fenster.koeffizienten());
-
+    if (!fenster.bestaetigt()) return 0;
+    zeichne(fenster.alsPolynom(), -10, 10);
     return 0;
 }
