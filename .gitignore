@@ -4,3 +4,4 @@
 # ... außer Eingabe-Dateien und dieser Datei
 !.gitignore
 !Eingabe.*
+!main.cpp
