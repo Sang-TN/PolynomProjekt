@@ -220,6 +220,8 @@ private:
 inline Polynom lesePolynomEin() {
     PolynomFenster fenster;
     fenster.starten();
-    return Polynom(fenster.koeffizienten());
+    // Eingabe liefert absteigend {an, ..., a0}, Polynom erwartet aufsteigend {a0, ..., an}
+    const auto& k = fenster.koeffizienten();
+    return Polynom(std::vector<double>(k.rbegin(), k.rend()));
 }
 
