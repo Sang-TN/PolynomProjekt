@@ -144,6 +144,8 @@ private:
         std::string text = polynom.text();
         if (IsKeyPressed(KEY_BACKSPACE) && !text.empty())
             text.pop_back();
+        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER))
+            CloseWindow();
 
         int zeichen = GetCharPressed();
         while (zeichen > 0) {
